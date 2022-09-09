@@ -1,25 +1,47 @@
-import logo from './logo.svg';
-import './App.css';
+import React, {useState, useEffect} from 'react'
+import {commerce} from "./Ecommerce"
+import { BrowserRouter, Route, Router, Routes, Link, NavLink } from 'react-router-dom'
+import Home from './Home'
+import Shop from './Shop'
+import Navbar from "./Navbar"
+import Footer from "./Footer"
+import Cart from "./Cart"
 
-function App() {
+// Liber.
+
+
+const App = () => {
+
+  const [products, setProducts] = useState([]);
+
+  const fetshProducts = async () => {
+    const { data } = await commerce.products.list();
+    setProducts(data)
+  }
+  
+  useEffect(() =>{
+    fetshProducts();
+
+  }, [])
+
+  console.log(products);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    <BrowserRouter>
+      
+
+
+    <Routes >
+      <Route path='/' element={<Home />}/>
+      <Route path='/Shop' element={<Shop products={products}  />}/>
+
+
+
+    </Routes>
+
+
+    </BrowserRouter>
+  )
 }
 
-export default App;
+export default App
